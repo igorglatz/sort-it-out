@@ -98,6 +98,9 @@ class DraggableListProvider extends ChangeNotifier {
     return isSelectionOrdered();
   }
 
+  bool isMoveLegal(int oldIndex, int newIndex) =>
+      newIndex == oldIndex + 2 && oldIndex == index1 && newIndex == index2 + 1;
+
   bool isSelectionOrdered() =>
       int.parse(draggableList[index1].title) <
       int.parse(draggableList[index2].title);
@@ -121,5 +124,14 @@ class DraggableListProvider extends ChangeNotifier {
   void resetIndexes() {
     index1 = 0;
     index2 = 1;
+  }
+
+  void reset() {
+    draggableList = buildDraggableItemList(generateListOfElements(6));
+    index1 = 0;
+    index2 = 1;
+    isStageSolved = isListFullyOrdered();
+    select(index1, index2);
+    notifyListeners();
   }
 }

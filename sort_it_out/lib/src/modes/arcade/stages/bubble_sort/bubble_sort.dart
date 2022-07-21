@@ -40,7 +40,9 @@ class _BubbleSortState extends State<BubbleSort> {
                   children: draggableListProvider.draggableList,
                   onReorder: (oldIndex, newIndex) {
                     _onReorder(oldIndex, newIndex, draggableListProvider);
-                    if (draggableListProvider.isStageSolved) _onStageSolved();
+                    if (draggableListProvider.isStageSolved) {
+                      _onStageSolved(draggableListProvider);
+                    }
                   }),
             ),
           ],
@@ -50,18 +52,20 @@ class _BubbleSortState extends State<BubbleSort> {
   void _onReorder(
       int oldIndex, int newIndex, DraggableListProvider draggableListProvider) {
     setState(() {
-      if (newIndex == oldIndex + 2) {
+      if (draggableListProvider.isMoveLegal(oldIndex, newIndex)) {
         newIndex = newIndex - 1;
         final element = draggableListProvider.draggableList.removeAt(oldIndex);
         draggableListProvider.draggableList.insert(newIndex, element);
-        draggableListProvider.correctMovement();
+        if (draggableListProvider.checkCorrectMoveConditions()) {
+          draggableListProvider.correctMovement();
+        }
       } else {
         draggableListProvider.wrongMovement();
       }
     });
   }
 
-  _onStageSolved() {
+  _onStageSolved(DraggableListProvider draggableListProvider) {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -69,7 +73,10 @@ class _BubbleSortState extends State<BubbleSort> {
               content: const Text('Congratulations! You solved the stage!'),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => Navigator.pop(context, 'OK'),
+                  onPressed: () {
+                    draggableListProvider.reset();
+                    Navigator.pop(context, 'OK');
+                  },
                   child: const Text('OK'),
                 ),
               ],
