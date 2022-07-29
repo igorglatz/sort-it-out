@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort.dart';
-import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/draggable_list_provider.dart';
+import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_provider.dart';
 import 'theme.dart';
 
 void main() {
@@ -20,8 +20,8 @@ class MainMenu extends StatelessWidget {
     ]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<DraggableListProvider>(
-            create: (_) => DraggableListProvider())
+        ChangeNotifierProvider<BubbleSortProvider>(
+            create: (_) => BubbleSortProvider())
       ],
       child: MaterialApp(
         title: 'Sort it out',
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             TextButton(
-                child: const Text("Jogar"),
+                child: const Text('Jogar'),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -61,11 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 style: Theme.of(context).textButtonTheme.style),
             TextButton(
-                child: const Text("Modo Livre"),
+                child: const Text('Modo Livre'),
                 onPressed: () {},
                 style: Theme.of(context).textButtonTheme.style),
             TextButton(
-                child: const Text("Opções"),
+                child: const Text('Opções'),
                 onPressed: () => {},
                 style: Theme.of(context).textButtonTheme.style),
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/draggable_list_provider.dart';
+import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_provider.dart';
 
 class BubbleSort extends StatefulWidget {
   const BubbleSort({Key? key}) : super(key: key);
@@ -12,22 +12,22 @@ class BubbleSort extends StatefulWidget {
 class _BubbleSortState extends State<BubbleSort> {
   @override
   Widget build(BuildContext context) {
-    DraggableListProvider draggableListProvider =
-        Provider.of<DraggableListProvider>(context);
+    BubbleSortProvider bubbleSortProvider =
+        Provider.of<BubbleSortProvider>(context);
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Stage 1 - Bubble Sort"),
+          title: const Text('Stage 1 - Bubble Sort'),
           centerTitle: true,
         ),
         body: Column(
           children: [
             TextButton(
                 onPressed: () => {
-                      if (draggableListProvider.checkCorrectMoveConditions())
-                        {draggableListProvider.correctMovement()}
+                      if (bubbleSortProvider.checkCorrectMoveConditions())
+                        {bubbleSortProvider.correctMovement()}
                       else
-                        {draggableListProvider.wrongMovement()}
+                        {bubbleSortProvider.wrongMovement()}
                     },
                 child: const Text('Pass')),
             ConstrainedBox(
@@ -37,11 +37,11 @@ class _BubbleSortState extends State<BubbleSort> {
               child: ReorderableListView(
                   padding: const EdgeInsets.only(bottom: 10),
                   scrollDirection: Axis.horizontal,
-                  children: draggableListProvider.draggableList,
+                  children: bubbleSortProvider.draggableList,
                   onReorder: (oldIndex, newIndex) {
-                    _onReorder(oldIndex, newIndex, draggableListProvider);
-                    if (draggableListProvider.isStageSolved) {
-                      _onStageSolved(draggableListProvider);
+                    _onReorder(oldIndex, newIndex, bubbleSortProvider);
+                    if (bubbleSortProvider.isStageSolved) {
+                      _onStageSolved(bubbleSortProvider);
                     }
                   }),
             ),
@@ -50,22 +50,28 @@ class _BubbleSortState extends State<BubbleSort> {
   }
 
   void _onReorder(
-      int oldIndex, int newIndex, DraggableListProvider draggableListProvider) {
+      int oldIndex, int newIndex, BubbleSortProvider bubbleSortProvider) {
     setState(() {
-      if (draggableListProvider.isMoveLegal(oldIndex, newIndex)) {
+      if (bubbleSortProvider.isPos0to1Move(oldIndex, newIndex)) {
         newIndex = newIndex - 1;
-        final element = draggableListProvider.draggableList.removeAt(oldIndex);
-        draggableListProvider.draggableList.insert(newIndex, element);
-        if (draggableListProvider.checkCorrectMoveConditions()) {
-          draggableListProvider.correctMovement();
+        final element = bubbleSortProvider.draggableList.removeAt(oldIndex);
+        bubbleSortProvider.draggableList.insert(newIndex, element);
+        if (bubbleSortProvider.checkCorrectMoveConditions()) {
+          bubbleSortProvider.correctMovement();
+        }
+      } else if (bubbleSortProvider.isPos1to0Move(oldIndex, newIndex)) {
+        final element = bubbleSortProvider.draggableList.removeAt(oldIndex);
+        bubbleSortProvider.draggableList.insert(newIndex, element);
+        if (bubbleSortProvider.checkCorrectMoveConditions()) {
+          bubbleSortProvider.correctMovement();
         }
       } else {
-        draggableListProvider.wrongMovement();
+        bubbleSortProvider.wrongMovement();
       }
     });
   }
 
-  _onStageSolved(DraggableListProvider draggableListProvider) {
+  _onStageSolved(BubbleSortProvider bubbleSortProvider) {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -74,7 +80,7 @@ class _BubbleSortState extends State<BubbleSort> {
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
-                    draggableListProvider.reset();
+                    bubbleSortProvider.reset();
                     Navigator.pop(context, 'OK');
                   },
                   child: const Text('OK'),
