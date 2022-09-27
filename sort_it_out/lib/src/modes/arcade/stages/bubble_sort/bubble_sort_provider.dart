@@ -5,26 +5,26 @@ import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/model/draggable_
 
 class BubbleSortProvider extends ChangeNotifier {
   late List<DraggableListItem> draggableList;
-  late int index1;
-  late int index2;
+  late int _index1;
+  late int _index2;
   bool isStageSolved = false;
 
   BubbleSortProvider() {
-    draggableList = buildDraggableItemList(generateListOfElements(6));
-    index1 = 0;
-    index2 = 1;
-    isStageSolved = isListFullyOrdered();
-    select(index1, index2);
+    draggableList = _buildDraggableItemList(_generateListOfElements(10));
+    _index1 = 0;
+    _index2 = 1;
+    isStageSolved = _isListFullyOrdered();
+    select(_index1, _index2);
   }
 
-  List<int> generateListOfElements(int listSize) {
+  List<int> _generateListOfElements(int listSize) {
     List<int> listOfRandomNumbers =
         List.generate(listSize * 2, (index) => index);
     listOfRandomNumbers.shuffle();
     return listOfRandomNumbers.sublist(0, listSize);
   }
 
-  List<DraggableListItem> buildDraggableItemList(List<int> randomNumbers) {
+  List<DraggableListItem> _buildDraggableItemList(List<int> randomNumbers) {
     List<DraggableListItem> draggableItemList = [];
     for (int number in randomNumbers) {
       DraggableListItem item = DraggableListItem(
@@ -34,24 +34,24 @@ class BubbleSortProvider extends ChangeNotifier {
     return draggableItemList;
   }
 
-  void correctMovement() {
+  void correctMove() {
     //Change colors of old selected numbers.
-    unselect(index1, index2);
-    incrementIndexes();
+    _unselect(_index1, _index2);
+    _incrementIndexes();
 
     if (!isStageSolved) {
-      if (isSelectionOutOfBounds(index2)) {
+      if (_isSelectionOutOfBounds(_index2)) {
         select(0, 1);
         resetIndexes();
       } else {
-        select(index1, index2);
+        select(_index1, _index2);
       }
-      log("index1: $index1 e index2 $index2");
+      log("index1: $_index1 e index2 $_index2");
       notifyListeners();
     }
   }
 
-  void unselect(int index1, int index2) {
+  void _unselect(int index1, int index2) {
     draggableList[index1] = DraggableListItem(
         title: draggableList[index1].title,
         color: Colors.white,
@@ -62,10 +62,10 @@ class BubbleSortProvider extends ChangeNotifier {
         key: draggableList[index2].key);
   }
 
-  void incrementIndexes() {
-    index1++;
-    index2++;
-    if (isListFullyOrdered()) {
+  void _incrementIndexes() {
+    _index1++;
+    _index2++;
+    if (_isListFullyOrdered()) {
       isStageSolved = true;
       log('Stage solved!');
       notifyListeners();
@@ -83,35 +83,35 @@ class BubbleSortProvider extends ChangeNotifier {
         key: draggableList[index2].key);
   }
 
-  void wrongMovement() {
+  void wrongMove() {
     //Show error message
-    draggableList[index1] = DraggableListItem(
-        title: draggableList[index1].title,
+    draggableList[_index1] = DraggableListItem(
+        title: draggableList[_index1].title,
         color: Colors.red,
-        key: draggableList[index1].key);
-    draggableList[index2] = DraggableListItem(
-        title: draggableList[index2].title,
+        key: draggableList[_index1].key);
+    draggableList[_index2] = DraggableListItem(
+        title: draggableList[_index2].title,
         color: Colors.red,
-        key: draggableList[index2].key);
+        key: draggableList[_index2].key);
     notifyListeners();
   }
 
   bool checkCorrectMoveConditions() {
-    return isSelectionOrdered();
+    return _isSelectionOrdered();
   }
 
   bool isPos0to1Move(int oldIndex, int newIndex) =>
       newIndex == oldIndex + 2 &&
-      (oldIndex == index1 && newIndex == index2 + 1);
+      (oldIndex == _index1 && newIndex == _index2 + 1);
 
   bool isPos1to0Move(int oldIndex, int newIndex) =>
-      newIndex == oldIndex - 1 && (oldIndex == index2 && newIndex == index1);
+      newIndex == oldIndex - 1 && (oldIndex == _index2 && newIndex == _index1);
 
-  bool isSelectionOrdered() =>
-      int.parse(draggableList[index1].title) <
-      int.parse(draggableList[index2].title);
+  bool _isSelectionOrdered() =>
+      int.parse(draggableList[_index1].title) <
+      int.parse(draggableList[_index2].title);
 
-  bool isListFullyOrdered() {
+  bool _isListFullyOrdered() {
     List<DraggableListItem> tempList = draggableList.toList();
     tempList.sort((a, b) => int.parse(a.title).compareTo(int.parse(b.title)));
     for (int i = 0; i < draggableList.length; i++) {
@@ -125,19 +125,19 @@ class BubbleSortProvider extends ChangeNotifier {
     return true;
   }
 
-  bool isSelectionOutOfBounds(int index) => index2 == draggableList.length;
+  bool _isSelectionOutOfBounds(int index) => _index2 == draggableList.length;
 
   void resetIndexes() {
-    index1 = 0;
-    index2 = 1;
+    _index1 = 0;
+    _index2 = 1;
   }
 
   void reset() {
-    draggableList = buildDraggableItemList(generateListOfElements(6));
-    index1 = 0;
-    index2 = 1;
-    isStageSolved = isListFullyOrdered();
-    select(index1, index2);
+    draggableList = _buildDraggableItemList(_generateListOfElements(10));
+    _index1 = 0;
+    _index2 = 1;
+    isStageSolved = _isListFullyOrdered();
+    select(_index1, _index2);
     notifyListeners();
   }
 }

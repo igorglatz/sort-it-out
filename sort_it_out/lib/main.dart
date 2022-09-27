@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort.dart';
+import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_message_provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_provider.dart';
+import 'package:sort_it_out/src/score_system/score_system_provider.dart';
 import 'theme.dart';
 
 void main() {
@@ -21,7 +23,10 @@ class MainMenu extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<BubbleSortProvider>(
-            create: (_) => BubbleSortProvider())
+            create: (_) => BubbleSortProvider()),
+        ChangeNotifierProvider<ScoreSystemProvider>(
+            create: (_) => ScoreSystemProvider()),
+        ChangeNotifierProvider(create: (_) => BubbleSortMessageProvider())
       ],
       child: MaterialApp(
         title: 'Sort it out',

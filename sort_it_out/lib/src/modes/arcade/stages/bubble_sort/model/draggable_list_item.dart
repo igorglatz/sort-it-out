@@ -20,7 +20,10 @@ class DraggableListItemState extends State<DraggableListItem> {
       width: 40,
       height: 40,
       color: widget.color,
-      child: Text(widget.title),
+      child: Text(
+        widget.title,
+        style: const TextStyle(fontSize: 20),
+      ),
     );
   }
 
