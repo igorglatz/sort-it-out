@@ -1,28 +1,33 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sort_it_out/src/save_data/save_data_provider.dart';
 
 class ScoreSystemProvider extends ChangeNotifier {
   late int score;
-
-  ScoreSystemProvider() {
-    //Check here if there is persistant data.
-    //if (player does not have points from previous game sessions)
-    score = 0;
+  final SaveDataProvider? _saveDataProvider;
+  ScoreSystemProvider(this._saveDataProvider) {
+    if (_saveDataProvider != null) {
+      int savedScore = _saveDataProvider!.getSavedScore();
+      score = savedScore;
+    }
   }
 
   _addPoints(int amount) {
     score += amount;
+    _updateScoreOnSaveFile();
     notifyListeners();
   }
 
   _subtractPoints(int amount) {
     if (score != 0) {
       score -= amount;
+      _updateScoreOnSaveFile();
     }
     notifyListeners();
   }
 
   resetScore() {
     score = 0;
+    _updateScoreOnSaveFile();
     notifyListeners();
   }
 
@@ -36,5 +41,9 @@ class ScoreSystemProvider extends ChangeNotifier {
 
   hintAsked() {
     _subtractPoints(20);
+  }
+
+  void _updateScoreOnSaveFile() {
+    _saveDataProvider!.saveScore(score);
   }
 }
