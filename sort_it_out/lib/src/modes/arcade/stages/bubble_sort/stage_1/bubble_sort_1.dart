@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_message_provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/stage_1/bubble_sort_provider_1.dart';
+import 'package:sort_it_out/src/save_data/save_data_provider.dart';
 import 'package:sort_it_out/src/score_system/score_system_provider.dart';
 
 class BubbleSort1 extends StatefulWidget {
@@ -20,7 +21,7 @@ class _BubbleSort1State extends State<BubbleSort1> {
         Provider.of<ScoreSystemProvider>(context);
     BubbleSortMessageProvider _messageProvider =
         Provider.of<BubbleSortMessageProvider>(context);
-
+    SaveDataProvider _saveProvider = Provider.of<SaveDataProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Fase 1 - Bubble Sort'),
@@ -82,7 +83,7 @@ class _BubbleSort1State extends State<BubbleSort1> {
                     _onReorder(oldIndex, newIndex, _bubbleSortProvider,
                         _scoreSystemProvider, _messageProvider);
                     if (_bubbleSortProvider.isStageSolved) {
-                      _onStageSolved(_bubbleSortProvider);
+                      _onStageSolved(_bubbleSortProvider, _saveProvider);
                     }
                   }),
             ),
@@ -126,7 +127,8 @@ class _BubbleSort1State extends State<BubbleSort1> {
     });
   }
 
-  _onStageSolved(BubbleSortProvider1 bubbleSortProvider) {
+  _onStageSolved(
+      BubbleSortProvider1 bubbleSortProvider, SaveDataProvider saveProvider) {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -135,6 +137,9 @@ class _BubbleSort1State extends State<BubbleSort1> {
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
+                    saveProvider.saveData!.bubbleSortSaveData.isStage1Complete =
+                        true;
+                    saveProvider.saveStageCompletion();
                     bubbleSortProvider.reset();
                     Navigator.pop(context, 'OK');
                   },

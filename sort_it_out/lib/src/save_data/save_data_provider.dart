@@ -70,6 +70,11 @@ class SaveDataProvider extends ChangeNotifier {
     return score;
   }
 
+  saveStageCompletion() {
+    _writeSaveFile();
+    notifyListeners();
+  }
+
   saveScore(int score) {
     saveData!.score = score;
     _writeSaveFile();

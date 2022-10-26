@@ -22,39 +22,47 @@ class _ArcadeMenuState extends State<ArcadeMenu> {
         title: Text(widget.title),
       ),
       body: Consumer<SaveDataProvider>(
-        builder: ((context, saveProvider, child) => Column(
-              children: [
-                TextButton(
-                    child: const Text('Fase 1'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BubbleSort1()),
-                      );
-                    },
-                    style: Theme.of(context).textButtonTheme.style),
-                TextButton(
-                    child: const Text('Fase 2'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BubbleSort2()),
-                      );
-                    },
-                    style: Theme.of(context).textButtonTheme.style),
-                TextButton(
-                    child: const Text('Fase 3'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BubbleSort3()),
-                      );
-                    },
-                    style: Theme.of(context).textButtonTheme.style),
-              ],
+        builder: ((context, saveProvider, child) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Bubble Sort'),
+                  TextButton(
+                      child: const Text('Fase 1'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BubbleSort1()),
+                        );
+                      },
+                      style: Theme.of(context).textButtonTheme.style),
+                  if (saveProvider
+                      .saveData!.bubbleSortSaveData.isStage1Complete)
+                    TextButton(
+                        child: const Text('Fase 2'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BubbleSort2()),
+                          );
+                        },
+                        style: Theme.of(context).textButtonTheme.style),
+                  if (saveProvider
+                      .saveData!.bubbleSortSaveData.isStage2Complete)
+                    TextButton(
+                        child: const Text('Fase 3'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BubbleSort3()),
+                          );
+                        },
+                        style: Theme.of(context).textButtonTheme.style),
+                ],
+              ),
             )),
       ),
     );

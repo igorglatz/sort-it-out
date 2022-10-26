@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_message_provider.dart';
-import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/stage_3/bubble_sort_provider_3.dart';
-import 'package:sort_it_out/src/save_data/save_data_provider.dart';
-import 'package:sort_it_out/src/score_system/score_system_provider.dart';
+import 'package:sort_it_out/src/modes/free/free_bubble_sort/free_bubble_sort_provider.dart';
 
-class BubbleSort3 extends StatefulWidget {
-  const BubbleSort3({Key? key}) : super(key: key);
+class FreeBubbleSort extends StatefulWidget {
+  const FreeBubbleSort({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _BubbleSort3State();
+  State<StatefulWidget> createState() => _FreeBubbleSortState();
 }
 
-class _BubbleSort3State extends State<BubbleSort3> {
+class _FreeBubbleSortState extends State<FreeBubbleSort> {
   @override
   Widget build(BuildContext context) {
-    BubbleSortProvider3 _bubbleSortProvider =
-        Provider.of<BubbleSortProvider3>(context);
-    ScoreSystemProvider _scoreSystemProvider =
-        Provider.of<ScoreSystemProvider>(context);
+    FreeBubbleSortProvider _bubbleSortProvider =
+        Provider.of<FreeBubbleSortProvider>(context);
     BubbleSortMessageProvider _messageProvider =
         Provider.of<BubbleSortMessageProvider>(context);
-    SaveDataProvider _saveProvider = Provider.of<SaveDataProvider>(context);
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Fase 3 - Bubble Sort'),
+          title: const Text('Modo Livre - Bubble Sort'),
           centerTitle: true,
         ),
         body: Column(
@@ -41,22 +36,16 @@ class _BubbleSort3State extends State<BubbleSort3> {
                         {
                           if (_bubbleSortProvider
                               .checkCorrectMoveConditions()) {
-                            _correctMove(_bubbleSortProvider,
-                                _scoreSystemProvider, _messageProvider);
+                            _correctMove(_bubbleSortProvider, _messageProvider);
                           } else {
-                            _wrongMove(false, _bubbleSortProvider,
-                                _scoreSystemProvider, _messageProvider);
+                            _wrongMove(
+                                false, _bubbleSortProvider, _messageProvider);
                           }
                         }
                       },
                       child: const Text('Passar')),
                 ),
                 const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child:
-                      Text('Score: ' + _scoreSystemProvider.score.toString()),
-                )
               ],
             ),
             ConstrainedBox(
@@ -71,9 +60,9 @@ class _BubbleSort3State extends State<BubbleSort3> {
                   children: _bubbleSortProvider.draggableList,
                   onReorder: (oldIndex, newIndex) {
                     _onReorder(oldIndex, newIndex, _bubbleSortProvider,
-                        _scoreSystemProvider, _messageProvider);
+                        _messageProvider);
                     if (_bubbleSortProvider.isStageSolved) {
-                      _onStageSolved(_bubbleSortProvider, _saveProvider);
+                      _onStageSolved(_bubbleSortProvider);
                     }
                   }),
             ),
@@ -91,8 +80,7 @@ class _BubbleSort3State extends State<BubbleSort3> {
   void _onReorder(
       int oldIndex,
       int newIndex,
-      BubbleSortProvider3 bubbleSortProvider,
-      ScoreSystemProvider scoreSystemProvider,
+      FreeBubbleSortProvider bubbleSortProvider,
       BubbleSortMessageProvider messageProvider) {
     setState(() {
       if (bubbleSortProvider.isPos0to1Move(oldIndex, newIndex)) {
@@ -100,25 +88,21 @@ class _BubbleSort3State extends State<BubbleSort3> {
         final element = bubbleSortProvider.draggableList.removeAt(oldIndex);
         bubbleSortProvider.draggableList.insert(newIndex, element);
         if (bubbleSortProvider.checkCorrectMoveConditions()) {
-          _correctMove(
-              bubbleSortProvider, scoreSystemProvider, messageProvider);
+          _correctMove(bubbleSortProvider, messageProvider);
         }
       } else if (bubbleSortProvider.isPos1to0Move(oldIndex, newIndex)) {
         final element = bubbleSortProvider.draggableList.removeAt(oldIndex);
         bubbleSortProvider.draggableList.insert(newIndex, element);
         if (bubbleSortProvider.checkCorrectMoveConditions()) {
-          _correctMove(
-              bubbleSortProvider, scoreSystemProvider, messageProvider);
+          _correctMove(bubbleSortProvider, messageProvider);
         }
       } else {
-        _wrongMove(
-            false, bubbleSortProvider, scoreSystemProvider, messageProvider);
+        _wrongMove(false, bubbleSortProvider, messageProvider);
       }
     });
   }
 
-  _onStageSolved(
-      BubbleSortProvider3 bubbleSortProvider, SaveDataProvider saveProvider) {
+  _onStageSolved(FreeBubbleSortProvider bubbleSortProvider) {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -127,9 +111,6 @@ class _BubbleSort3State extends State<BubbleSort3> {
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
-                    saveProvider.saveData!.bubbleSortSaveData.isStage3Complete =
-                        true;
-                    saveProvider.saveStageCompletion();
                     bubbleSortProvider.reset();
                     Navigator.pop(context, 'OK');
                     //save progress here
@@ -140,22 +121,17 @@ class _BubbleSort3State extends State<BubbleSort3> {
             ));
   }
 
-  _correctMove(
-      BubbleSortProvider3 bubbleSortProvider,
-      ScoreSystemProvider scoreSystemProvider,
+  _correctMove(FreeBubbleSortProvider bubbleSortProvider,
       BubbleSortMessageProvider messageProvider) {
     bubbleSortProvider.correctMove();
-    scoreSystemProvider.correctMove();
     messageProvider.correctMoveMessage();
   }
 
   _wrongMove(
       bool notHighlitedElementMoved,
-      BubbleSortProvider3 bubbleSortProvider,
-      ScoreSystemProvider scoreSystemProvider,
+      FreeBubbleSortProvider bubbleSortProvider,
       BubbleSortMessageProvider messageProvider) {
     bubbleSortProvider.wrongMove();
-    scoreSystemProvider.wrongMove();
     messageProvider.wrongMoveMessage(false);
   }
 }

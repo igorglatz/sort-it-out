@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_message_provider.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/stage_2/bubble_sort_provider_2.dart';
+import 'package:sort_it_out/src/save_data/save_data_provider.dart';
 import 'package:sort_it_out/src/score_system/score_system_provider.dart';
 
 class BubbleSort2 extends StatefulWidget {
@@ -20,6 +21,7 @@ class _BubbleSort2State extends State<BubbleSort2> {
         Provider.of<ScoreSystemProvider>(context);
     BubbleSortMessageProvider _messageProvider =
         Provider.of<BubbleSortMessageProvider>(context);
+    SaveDataProvider _saveProvider = Provider.of<SaveDataProvider>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -71,7 +73,7 @@ class _BubbleSort2State extends State<BubbleSort2> {
                     _onReorder(oldIndex, newIndex, _bubbleSortProvider,
                         _scoreSystemProvider, _messageProvider);
                     if (_bubbleSortProvider.isStageSolved) {
-                      _onStageSolved(_bubbleSortProvider);
+                      _onStageSolved(_bubbleSortProvider, _saveProvider);
                     }
                   }),
             ),
@@ -115,7 +117,8 @@ class _BubbleSort2State extends State<BubbleSort2> {
     });
   }
 
-  _onStageSolved(BubbleSortProvider2 bubbleSortProvider) {
+  _onStageSolved(
+      BubbleSortProvider2 bubbleSortProvider, SaveDataProvider saveProvider) {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -124,9 +127,11 @@ class _BubbleSort2State extends State<BubbleSort2> {
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
+                    saveProvider.saveData!.bubbleSortSaveData.isStage2Complete =
+                        true;
+                    saveProvider.saveStageCompletion();
                     bubbleSortProvider.reset();
                     Navigator.pop(context, 'OK');
-                    //save progress here
                   },
                   child: const Text('OK'),
                 ),

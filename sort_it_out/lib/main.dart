@@ -6,6 +6,8 @@ import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/bubble_sort_mess
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/stage_1/bubble_sort_provider_1.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/stage_2/bubble_sort_provider_2.dart';
 import 'package:sort_it_out/src/modes/arcade/stages/bubble_sort/stage_3/bubble_sort_provider_3.dart';
+import 'package:sort_it_out/src/modes/free/free_bubble_sort/free_bubble_sort_provider.dart';
+import 'package:sort_it_out/src/modes/free/free_menu.dart';
 import 'package:sort_it_out/src/save_data/save_data_provider.dart';
 import 'package:sort_it_out/src/score_system/score_system_provider.dart';
 import 'theme.dart';
@@ -39,6 +41,8 @@ class MainMenu extends StatelessWidget {
                 ScoreSystemProvider(saveProvider)),
         ChangeNotifierProvider<BubbleSortMessageProvider>(
             create: (_) => BubbleSortMessageProvider()),
+        ChangeNotifierProvider<FreeBubbleSortProvider>(
+            create: (_) => FreeBubbleSortProvider()),
       ],
       child: MaterialApp(
         title: 'Sort it out',
@@ -67,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
                 child: const Text('Jogar'),
@@ -75,13 +80,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const ArcadeMenu(
-                            title: 'Sort It Out - Arcade mode')),
+                            title: 'Sort It Out - Modo Arcade')),
                   );
                 },
                 style: Theme.of(context).textButtonTheme.style),
             TextButton(
                 child: const Text('Modo Livre'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const FreeMenu(title: 'Sort It Out - Modo Livre')),
+                  );
+                },
                 style: Theme.of(context).textButtonTheme.style),
             TextButton(
                 child: const Text('Opções'),
