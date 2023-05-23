@@ -4,13 +4,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sort_it_out/src/save_data/bubble_sort/bubble_sort_save_data.dart';
+import 'package:sort_it_out/src/save_data/merge-sort/merge_sort_save_data.dart';
 import 'package:sort_it_out/src/save_data/save_data.dart';
 
 class SaveDataProvider extends ChangeNotifier {
   SaveData? saveData;
 
   SaveDataProvider._create() {
-    saveData = SaveData(0, BubbleSortSaveData(false, false, false));
+    saveData = SaveData(0, BubbleSortSaveData(false, false, false),
+        MergeSortSaveData(false, false, false));
   }
 
   static Future<SaveDataProvider> init() async {
@@ -34,6 +36,8 @@ class SaveDataProvider extends ChangeNotifier {
   }
 
   get bubbleSortSaveData => saveData!.bubbleSortSaveData;
+
+  get mergeSortSaveData => saveData!.mergeSortSaveData;
 
   Future<String> _getFilePath() async {
     WidgetsFlutterBinding.ensureInitialized();

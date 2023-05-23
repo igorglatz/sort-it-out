@@ -9,9 +9,6 @@ class AppTheme {
       backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
       overlayColor: MaterialStateProperty.all<Color>(Colors.white),
       foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-      // textStyle: MaterialStateProperty.all<TextStyle>(
-      //     const TextStyle(color: Colors.white)
-      // )
     )),
   );
 }
