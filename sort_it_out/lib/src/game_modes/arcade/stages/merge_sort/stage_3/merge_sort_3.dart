@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/merge_sort_message_provider.dart';
-import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/stage_1/merge_sort_provider_1.dart';
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/stage_3/merge_sort_provider_3.dart';
 import 'package:sort_it_out/src/model/sortable_item.dart';
 import 'package:sort_it_out/src/save_data/save_data_provider.dart';
@@ -11,10 +10,10 @@ class MergeSort3 extends StatefulWidget {
   const MergeSort3({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MergeSort1State();
+  State<StatefulWidget> createState() => _MergeSort3State();
 }
 
-class _MergeSort1State extends State<MergeSort3> {
+class _MergeSort3State extends State<MergeSort3> {
   @override
   Widget build(BuildContext context) {
     MergeSortProvider3 _mergeSortProvider =
@@ -60,7 +59,7 @@ class _MergeSort1State extends State<MergeSort3> {
                       child: const Text('Pedir dica (-20 pontos)')),
                 ),
                 SizedBox(
-                  width: 270,
+                  width: 220,
                   child: Text(
                     _messageProvider.currentMessage,
                     softWrap: true,

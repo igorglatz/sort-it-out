@@ -1,0 +1,212 @@
+@startuml Diagrama de Classes Sort it Out
+class ScoreSystemProvider {
+    -saveDataProvider: SaveDataProvider
+    +correctMove(): void
+    +wrongMove(): void
+    +resetScore(): void
+    +hintAsked(): void
+    -addPoints(): void
+    -subtractPoints(): void
+    -updateScoreOnSaveFile(): void
+}
+ScoreSystemProvider -- SaveDataProvider
+class SaveData {
+    +score: int 
+    +bubbleSortSaveData: BubbleSortSaveData
+    +mergeSortSaveData: MergeSortSaveData
+    +fromJson(json: Map<String, dynamic>): SaveData
+    +toJson(): Map<String, dynamic>
+}
+SaveData "1" *-- "1" BubbleSortSaveData
+SaveData "1" *-- "1" MergeSortSaveData
+class SaveDataProvider {
+    +saveData: SaveData
+    +init(): Future<SaveDataProvider>
+    +getSavedScore(): int
+    +saveStageCompletion(): dynamic
+    +saveScore(): dynamic
+    +getBubbleSortSaveData(): BubbleSortSaveData
+    +getMergeSortSaveData(): MergeSortSaveData
+    -init(): dynamic
+    -create(): dynamic
+    -writeSaveFile(): void
+    -getFilePath(): Future<String>
+    -readFile(): void
+    -createFile(): void
+    -previousSaveFileExists(): dynamic
+}
+SaveDataProvider *-- SaveData : contains
+SaveDataProvider -- BubbleSort
+SaveDataProvider -- MergeSort1
+SaveDataProvider -- MergeSort2
+class BubbleSortSaveData {
+    +isStage1Complete: bool
+    +isStage2Complete: bool
+    +isStage3Complete: bool
+    +fromJSON(json: Map<String, dynamic>): BubbleSortSaveData
+    +toJSON(): Map<String, dynamic>
+}
+class MergeSortSaveData {
+    +isStage1Complete: bool
+    +isStage2Complete: bool
+    +isStage3Complete: bool
+    +fromJSON(json: Map<String, dynamic>): MergeSortSaveData
+    +toJSON(): Map<String, dynamic>
+}
+class InputItem {
+    +position: int
+    +color: Color
+    +height: double
+    +width: double
+    +fontSize: double
+    +onChangedValue: dynamic
+    +clean: bool
+}
+class SortableItem {
+    +title: String
+    +color: Color
+    +height: double
+    +width: double
+    +fontSize: double
+}
+class BubbleSort{
+    +build(): Widget
+    -onReorder(oldIndex: int, newIndex: int, BubbleSortProvider, SaveDataProvider): void
+    -onStageSolved(BubbleSortProvider, SaveDataProvider): dynamic
+    -hintAsked(ScoreSystemProvider, BubbleSortMessageProvider): dynamic
+    -correctMove(BubbleSortProvider, ScoreSystemProvider, BubbleSortMessageProvider): dynamic
+    -wrongMove(notHighlightedElementMoved: bool, BubbleSortProvider,
+     ScoreSystemProvider, BubbleSortMessageProvider): dynamic
+}
+BubbleSort -- BubbleSortProvider
+BubbleSort -- BubbleSortMessageProvider
+BubbleSort "1" o-- "many" SortableItem
+BubbleSort -- ScoreSystemProvider 
+class BubbleSortProvider {
+    +draggableList: List<SortableItem>
+    -index1: int
+    -index2: int
+    +isStageSolved: bool
+    -generateListOfElements(listSize: int): List<int>
+    +correctMove(): void
+    -unselect(index1: int, index2: int): void
+    -incrementIndexes(): void
+    +select(index1: int, index2: int): void
+    +wrongMove(): void
+    +checkCorrectMoveConditions(): bool
+    +isPos0to1Move(oldIndex: int, newIndex: int): bool
+    +isPos1to0Move(oldIndex: int, newIndex: int): bool
+    -isSelectionOrdered(): bool
+    -isListFullyOrdered(): bool
+    -isSelectionOutOfBounds(index: int): bool
+    +resetIndexes(): void
+    +reset(): void
+}
+BubbleSortProvider "1" o-- "many" SortableItem
+class BubbleSortMessageProvider {
+    +wrongMoveMessage(notHighlightedElementMoved: bool): void
+    +correctMoveMessage(): void
+    +hintAsked(): void
+    -getRandomHint(): String
+}
+class MergeSort1 {
+    +build(): Widget
+    -buildWholeStep(step: List<List<SortableItem>>): dynamic
+    -hintAsked(ScoreSystemProvider, MergeSortMessageProvider): dynamic
+    -selectInternalList(internalList: List<SortableItem>,MergeSortProvider, 
+     MergeSortMessageProvider,SaveDataProvider,ScoreSystemProvider): dynamic
+    -correctSelection(internalList: List<SortableItem>,MergeSortProvider,
+     MergeSortMessageProvider,SaveDataProvider,ScoreSystemProvider): dynamic
+    -incorrectSelection(MergeSortMessageProvider,MergeSortProvider, ScoreSystemProvider): dynamic
+    -onStageSolved(MergeSortProvider,SaveDataProvider): dynamic
+}
+MergeSort1 "1" o-- "many" InputItem
+MergeSort1 "1" o-- "many" SortableItem
+MergeSort1 -- ScoreSystemProvider
+MergeSort1 -- MergeSortMessageProvider
+class MergeSortProvider1 {
+    -initialList: List<SortableItem>
+    +steps: List<List<List<SortableItem>>>
+    -finalList: List<SortableItem>
+    -numberOfElementsToSort: int
+    -selectedInternalLists: List<List<SortableItem>>
+    -correctOrderOfInternalListsSelection: List<List<SortableItem>>
+    -generateListOfElements(listSize: int): List<int>
+    -buildDraggableItemList(List<int> randomNumbers): List<SortableItem>
+    +checkInternalListSelection(internalList: List<SortableItem>): bool
+    -createChallengeList(numberOfElements: int): dynamic
+    -generateSteps(): dynamic
+    -generateMergeSteps(): dynamic
+    +getInitialList(): List<SortableItem>
+    +getFinalList(): List<SortableItem>
+    -splitSortableItemList(sortableItemList: List<List<SortableItem>>): void
+    -isEveryInternalListOneElement(externalList: List<List<SortableItem>>): bool
+    -isListOrdered(list: List<int>): bool
+    -generateCorrectOrderOfInternalListsSelection(): void
+    +isCorrectlySelected(internalList: List<SortableItem>): bool
+    +reset(): dynamic
+    +isStageSolved(currentInternalList: List<SortableItem>): bool
+    -getLevelOfInternalList(selectedInternalList: List<SortableItem>): int
+    +select(selectedInternalList: List<SortableItem>): void
+}
+MergeSortProvider1 "1" o-- "many" SortableItem
+class MergeSort2 {
+    +build(): Widget
+    -buildWholeStep(step: List<List<InputItem>>): dynamic
+    -hintAsked(ScoreSystemProvider, MergeSortMessageProvider): dynamic
+    -submitInputValues(MergeSortProvider2, MergeSortMessageProvider,
+     SaveDataProvider, ScoreSystemProvider): dynamic
+    -areThereEmptyInputs(MergeSortProvider2, MergeSortMessageProvider,
+     SaveDataProvider, ScoreSystemProvider): bool
+    -correctInputs(MergeSortMessageProvider, MergeSortProvider2, 
+     SaveDataProvider, ScoreSystemProvider): dynamic
+    -incorrectInputs(MergeSortMessageProvider, MergeSortProvider2,
+     ScoreSystemProvider): dynamic
+    -emptyInputs(MergeSortMessageProvider, MergeSortProvider2): dynamic
+    -onStageSolved(MergeSortProvider2, SaveDataProvider): dynamic
+}
+MergeSort2 "1" o-- "many" InputItem
+MergeSort2 -- ScoreSystemProvider
+MergeSort2 -- MergeSortMessageProvider
+class MergeSortProvider2 {
+    -initialList: List<SortableItem>
+    +steps: List<List<List<SortableItem>>>
+    -finalList: List<SortableItem>
+    -numberOfElementsToSort: int
+    -correctOrderOfInputs: List<int>
+    +inputs: List<List<List<InputItem>>>
+    -currentInputValues: List<String>
+    -generateListOfElements(listSize: int): List<int>
+    -buildDraggableItemList(List<int> randomNumbers): List<SortableItem>
+    +highlightWrongInputs(): dynamic
+    +areThereEmptyInputs(): bool
+    +checkInputs(): bool
+    -createChallengeList(numberOfElements: int): dynamic
+    -generateSteps(): dynamic
+    -generateMergeSteps(): dynamic
+    +getInitialList(): List<SortableItem>
+    +getFinalList(): List<SortableItem>
+    +getSteps(): List<List<List<SortableItem>>>
+    -splitSortableItemList(sortableItemList: List<List<SortableItem>>): void
+    -isEveryInternalListOneElement(externalList: List<List<SortableItem>>): bool
+    -isListOrdered(list: List<int>): bool
+    -generateCorrectOrderOfInputs(): dynamic
+    +isInputCorrect(number: int, position: int): bool
+    -stepsToInputs(): void
+    -assignOnChangeFunctionToInputs(clean: bool): dynamic
+    -selectWrongInputs(wrongInputPositions: List<int>): dynamic
+    +reset(): dynamic
+}
+MergeSortProvider2 "1" o-- "many" InputItem
+MergeSortProvider2 "1" o-- "many" SortableItem
+class MergeSortMessageProvider {
+    +currentMessage: String
+    -hints: List<String>
+    +wrongMoveMessage(): void
+    +wrongMoveMessageInputs(): void
+    +emptyInputsErrorMessage(): void
+    +correctMoveMessage(): void
+    +hintAsked(): void
+    -getRandomHint(): String
+}
+@enduml

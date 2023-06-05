@@ -31,7 +31,7 @@ class SaveDataProvider extends ChangeNotifier {
   }
 
   void _writeSaveFile() async {
-    File file = File(await _getFilePath());
+    File file = File(await getFilePath());
     file.writeAsString(jsonEncode(saveData!.toJson()));
   }
 
@@ -39,7 +39,7 @@ class SaveDataProvider extends ChangeNotifier {
 
   get mergeSortSaveData => saveData!.mergeSortSaveData;
 
-  Future<String> _getFilePath() async {
+  Future<String> getFilePath() async {
     WidgetsFlutterBinding.ensureInitialized();
     Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
     String appDocumentsPath = appDocumentsDirectory.path;
@@ -49,7 +49,7 @@ class SaveDataProvider extends ChangeNotifier {
   }
 
   void _readFile() async {
-    File file = File(await _getFilePath());
+    File file = File(await getFilePath());
     String fileContent = await file.readAsString();
 
     try {
@@ -60,12 +60,12 @@ class SaveDataProvider extends ChangeNotifier {
   }
 
   void _createFile() async {
-    File file = await File(await _getFilePath()).create(recursive: true);
+    File file = await File(await getFilePath()).create(recursive: true);
     file.writeAsString(jsonEncode(saveData!.toJson()));
   }
 
   _previousSaveFileExists() async {
-    File file = File(await _getFilePath());
+    File file = File(await getFilePath());
     return await file.exists();
   }
 
@@ -81,6 +81,13 @@ class SaveDataProvider extends ChangeNotifier {
 
   saveScore(int score) {
     saveData!.score = score;
+    _writeSaveFile();
+    notifyListeners();
+  }
+
+  resetSaveData() {
+    saveData = SaveData(0, BubbleSortSaveData(false, false, false),
+        MergeSortSaveData(false, false, false));
     _writeSaveFile();
     notifyListeners();
   }

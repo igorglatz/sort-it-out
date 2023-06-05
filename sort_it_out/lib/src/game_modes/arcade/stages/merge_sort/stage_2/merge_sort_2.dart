@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/merge_sort_message_provider.dart';
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/stage_2/merge_sort_provider_2.dart';
 import 'package:sort_it_out/src/model/input_item.dart';
-import 'package:sort_it_out/src/model/sortable_item.dart';
 import 'package:sort_it_out/src/save_data/save_data_provider.dart';
 import 'package:sort_it_out/src/score_system/score_system_provider.dart';
 
@@ -11,10 +10,10 @@ class MergeSort2 extends StatefulWidget {
   const MergeSort2({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MergeSort1State();
+  State<StatefulWidget> createState() => _MergeSort2State();
 }
 
-class _MergeSort1State extends State<MergeSort2> {
+class _MergeSort2State extends State<MergeSort2> {
   @override
   Widget build(BuildContext context) {
     MergeSortProvider2 _mergeSortProvider =
@@ -200,7 +199,7 @@ class _MergeSort1State extends State<MergeSort2> {
     }
   }
 
-  _areThereEmptyInputs(MergeSortProvider2 mergeSortProvider) {
+  bool _areThereEmptyInputs(MergeSortProvider2 mergeSortProvider) {
     return mergeSortProvider.areThereEmptyInputs();
   }
 

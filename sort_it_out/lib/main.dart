@@ -12,7 +12,7 @@ import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/stage_2/merg
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/stage_3/merge_sort_provider_3.dart';
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/stage_4/merge_sort_provider_4.dart';
 import 'package:sort_it_out/src/game_modes/free/free_bubble_sort/free_bubble_sort_provider.dart';
-import 'package:sort_it_out/src/game_modes/free/free_menu.dart';
+import 'package:sort_it_out/src/options_menu/options_menu.dart';
 import 'package:sort_it_out/src/save_data/save_data_provider.dart';
 import 'package:sort_it_out/src/score_system/score_system_provider.dart';
 import 'theme.dart';
@@ -62,22 +62,22 @@ class MainMenu extends StatelessWidget {
       child: MaterialApp(
         title: 'Sort it out',
         theme: AppTheme().themeData,
-        home: const MyHomePage(title: 'Sort It Out'),
+        home: const HomeMenuOptions(title: 'Sort It Out'),
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class HomeMenuOptions extends StatefulWidget {
+  const HomeMenuOptions({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeMenuOptions> createState() => _HomeMenuOptionsState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeMenuOptionsState extends State<HomeMenuOptions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,20 +99,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 style: Theme.of(context).textButtonTheme.style),
+            // TextButton(
+            //     child: const Text('Modo Livre'),
+            //     onPressed: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) =>
+            //                 const FreeMenu(title: 'Sort It Out - Modo Livre')),
+            //       );
+            //     },
+            //     style: Theme.of(context).textButtonTheme.style),
             TextButton(
-                child: const Text('Modo Livre'),
+                child: const Text('Opções'),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const FreeMenu(title: 'Sort It Out - Modo Livre')),
+                            const OptionsMenu(title: 'Sort It Out - Opções')),
                   );
                 },
-                style: Theme.of(context).textButtonTheme.style),
-            TextButton(
-                child: const Text('Opções'),
-                onPressed: () => {},
                 style: Theme.of(context).textButtonTheme.style),
           ],
         ),

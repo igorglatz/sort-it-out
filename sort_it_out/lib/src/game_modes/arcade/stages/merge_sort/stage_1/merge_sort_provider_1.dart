@@ -132,7 +132,7 @@ class MergeSortProvider1 extends ChangeNotifier {
     steps.add(newList);
   }
 
-  _isEveryInternalListOneElement(List<List<SortableItem>> externalList) {
+  bool _isEveryInternalListOneElement(List<List<SortableItem>> externalList) {
     int result = 0;
     for (List<SortableItem> internalList in externalList) {
       if (internalList.length == 1) {

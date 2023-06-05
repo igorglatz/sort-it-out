@@ -28,11 +28,11 @@ class BubbleSortMessageProvider extends ChangeNotifier {
   }
 
   void hintAsked() {
-    currentMessage = getRandomHint();
+    currentMessage = _getRandomHint();
     notifyListeners();
   }
 
-  String getRandomHint() {
+  String _getRandomHint() {
     List<int> listOfRandomNumbers =
         List.generate(_hints.length, (index) => index);
     listOfRandomNumbers.shuffle();

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/merge_sort_message_provider.dart';
@@ -177,8 +176,8 @@ class _MergeSort1State extends State<MergeSort1> {
     bool result = mergeSortProvider.checkInternalListSelection(internalList);
 
     result
-        ? _correctSelection(messageProvider, mergeSortProvider,
-            saveDataProvider, scoreProvider, internalList)
+        ? _correctSelection(internalList, messageProvider, mergeSortProvider,
+            saveDataProvider, scoreProvider)
         : _incorrectSelection(
             messageProvider, mergeSortProvider, scoreProvider);
     print(
@@ -186,11 +185,12 @@ class _MergeSort1State extends State<MergeSort1> {
   }
 
   _correctSelection(
-      MergeSortMessageProvider messageProvider,
-      MergeSortProvider1 mergeSortProvider,
-      SaveDataProvider saveDataProvider,
-      ScoreSystemProvider scoreProvider,
-      List<SortableItem> internalList) {
+    List<SortableItem> internalList,
+    MergeSortMessageProvider messageProvider,
+    MergeSortProvider1 mergeSortProvider,
+    SaveDataProvider saveDataProvider,
+    ScoreSystemProvider scoreProvider,
+  ) {
     messageProvider.correctMoveMessage();
     scoreProvider.correctMove();
     mergeSortProvider.select(internalList);

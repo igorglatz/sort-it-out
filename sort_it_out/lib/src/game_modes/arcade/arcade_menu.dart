@@ -31,6 +31,9 @@ class _ArcadeMenuState extends State<ArcadeMenu> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
                     const Text('Bubble Sort'),
                     TextButton(
                         child: const Text('Fase 1'),
@@ -42,8 +45,7 @@ class _ArcadeMenuState extends State<ArcadeMenu> {
                           );
                         },
                         style: Theme.of(context).textButtonTheme.style),
-                    if (saveProvider
-                        .saveData!.bubbleSortSaveData.isStage1Complete)
+                    if (saveProvider.bubbleSortSaveData.isStage1Complete)
                       TextButton(
                           child: const Text('Fase 2'),
                           onPressed: () {
@@ -54,8 +56,7 @@ class _ArcadeMenuState extends State<ArcadeMenu> {
                             );
                           },
                           style: Theme.of(context).textButtonTheme.style),
-                    if (saveProvider
-                        .saveData!.bubbleSortSaveData.isStage2Complete)
+                    if (saveProvider.bubbleSortSaveData.isStage2Complete)
                       TextButton(
                           child: const Text('Fase 3'),
                           onPressed: () {
@@ -66,18 +67,19 @@ class _ArcadeMenuState extends State<ArcadeMenu> {
                             );
                           },
                           style: Theme.of(context).textButtonTheme.style),
-                    if (saveProvider.bubbleSortSaveData.isStage3Complete)
+                    if (saveProvider.bubbleSortSaveData.isStage3Complete) ...[
                       const Text('Merge Sort'),
-                    TextButton(
-                        child: const Text('Fase 1'),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MergeSort1()),
-                          );
-                        },
-                        style: Theme.of(context).textButtonTheme.style),
+                      TextButton(
+                          child: const Text('Fase 1'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MergeSort1()),
+                            );
+                          },
+                          style: Theme.of(context).textButtonTheme.style),
+                    ],
                     if (saveProvider.mergeSortSaveData.isStage1Complete)
                       TextButton(
                           child: const Text('Fase 2'),

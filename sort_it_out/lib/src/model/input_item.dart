@@ -38,6 +38,7 @@ class InputItemState extends State<InputItem> {
         height: widget.height,
         child: Center(
             child: TextField(
+                textAlign: TextAlign.center,
                 onChanged: (value) => widget.onChangedValue(value),
                 controller:
                     widget.clean ? TextEditingController(text: "") : null,
