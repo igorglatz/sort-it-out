@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sort_it_out">
+    package="ufsc.br.sort_it_out">
    <application
         android:label="sort_it_out"
         android:name="${applicationName}"

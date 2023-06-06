@@ -102,6 +102,9 @@ class _BubbleSort3State extends State<BubbleSort3> {
         if (bubbleSortProvider.checkCorrectMoveConditions()) {
           _correctMove(
               bubbleSortProvider, scoreSystemProvider, messageProvider);
+        } else {
+          _wrongMove(
+              false, bubbleSortProvider, scoreSystemProvider, messageProvider);
         }
       } else if (bubbleSortProvider.isPos1to0Move(oldIndex, newIndex)) {
         final element = bubbleSortProvider.draggableList.removeAt(oldIndex);
@@ -109,6 +112,9 @@ class _BubbleSort3State extends State<BubbleSort3> {
         if (bubbleSortProvider.checkCorrectMoveConditions()) {
           _correctMove(
               bubbleSortProvider, scoreSystemProvider, messageProvider);
+        } else {
+          _wrongMove(
+              false, bubbleSortProvider, scoreSystemProvider, messageProvider);
         }
       } else {
         _wrongMove(

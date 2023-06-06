@@ -52,8 +52,7 @@ class _OptionsMenuState extends State<OptionsMenu> {
                                   ));
                         },
                         style: Theme.of(context).textButtonTheme.style),
-                    if (saveProvider
-                        .saveData!.bubbleSortSaveData.isStage1Complete)
+                    if (saveProvider.saveData != null)
                       TextButton(
                           child: const Text(
                               'Localizar seu arquivo de dados de progresso'),
