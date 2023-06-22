@@ -24,7 +24,9 @@ class _OptionsMenuState extends State<OptionsMenu> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Bubble Sort'),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     TextButton(
                         child: const Text('Apagar dados de progresso salvos'),
                         onPressed: () {
