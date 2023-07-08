@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sort_it_out/src/game_modes/arcade/stages/merge_sort/merge_sort_message_provider.dart';
@@ -198,8 +200,7 @@ class _MergeSort3State extends State<MergeSort3> {
             saveDataProvider, scoreProvider, internalList)
         : _incorrectSelection(
             messageProvider, mergeSortProvider, scoreProvider);
-    print(
-        'selected internalList: ${internalList.toString()} is it correct? [$result]');
+    log('selected internalList: ${internalList.toString()} is it correct? [$result]');
   }
 
   _correctSelection(

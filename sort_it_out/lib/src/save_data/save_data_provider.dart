@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -55,7 +56,7 @@ class SaveDataProvider extends ChangeNotifier {
     try {
       saveData = SaveData.fromJson(jsonDecode(fileContent));
     } catch (e) {
-      print('Error during int parsing in readFile process: $e');
+      log('Error during int parsing in readFile process: $e');
     }
   }
 

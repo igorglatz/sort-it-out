@@ -113,7 +113,7 @@ class MergeSortProvider3 extends ChangeNotifier {
 
       steps.add(newStep);
     }
-    print('Steps after generating Merge steps: ' + steps.toString());
+    log('Steps after generating Merge steps: ' + steps.toString());
   }
 
   List<SortableItem> getInitialList() => _initialList;
@@ -179,7 +179,7 @@ class MergeSortProvider3 extends ChangeNotifier {
       steps[5][0]
     ]);
 
-    print('correct order of internal lists: ' +
+    log('correct order of internal lists: ' +
         _correctOrderOfInternalListsSelection.toString());
   }
 

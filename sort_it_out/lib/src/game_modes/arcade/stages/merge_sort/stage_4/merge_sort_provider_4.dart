@@ -69,8 +69,8 @@ class MergeSortProvider4 extends ChangeNotifier {
       index++;
     }
 
-    print('Correct inputs in order: ${_correctOrderOfInputs.toString()}');
-    print('These elements are wrong: ${wrongInputPositions.toString()}');
+    log('Correct inputs in order: ${_correctOrderOfInputs.toString()}');
+    log('These elements are wrong: ${wrongInputPositions.toString()}');
 
     _selectWrongInputs(wrongInputPositions);
   }
@@ -100,7 +100,7 @@ class MergeSortProvider4 extends ChangeNotifier {
     }
     bool isCurrentSubmissionCorrect =
         listEquals(currentValuesToIntList, _correctOrderOfInputs);
-    print('Submitted solution: ' + _currentInputValues.toString());
+    log('Submitted solution: ' + _currentInputValues.toString());
     return isCurrentSubmissionCorrect;
   }
 
@@ -152,7 +152,7 @@ class MergeSortProvider4 extends ChangeNotifier {
 
       _steps.add(newStep);
     }
-    print('Steps after generating Merge steps: ' + _steps.toString());
+    log('Steps after generating Merge steps: ' + _steps.toString());
   }
 
   List<SortableItem> getInitialList() => _initialList;
@@ -203,7 +203,7 @@ class MergeSortProvider4 extends ChangeNotifier {
       }
     }
 
-    print("correct order of inputs " + _correctOrderOfInputs.toString());
+    log("correct order of inputs " + _correctOrderOfInputs.toString());
   }
 
   bool isInputCorrect(int number, int position) {
